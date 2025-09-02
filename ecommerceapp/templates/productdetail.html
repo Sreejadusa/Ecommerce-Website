@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.title }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="row align-items-start g-5"> <!-- Fixed vertical alignment -->
+
+    <!-- Product Image -->
+    <div class="col-md-6 text-center">
+      <div class="d-flex align-items-center justify-content-center" style="height: 100%;">
+        <img src="{{ product.product_image.url }}" alt="{{ product.title }}"
+             class="img-fluid rounded-3" style="max-height: 450px; object-fit: contain;">
+      </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="col-md-6">
+      <h2 class="fw-bold mb-3 text-primary mt-0">{{ product.title }}</h2>
+
+      <h5 class="fw-semibold text-dark mb-2"> Product Description:</h5>
+      <ul class="text-secondary mb-4 ps-3">
+        {% for line in product.description.splitlines %}
+          {% if line.strip %}
+            <li>{{ line }}</li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+
+      <div class="mb-3">
+        <span class="fs-3 fw-bold text-success">Rs.{{ product.discounted_price }}</span>
+        {% if product.discounted_price < product.selling_price %}
+          <span class="text-muted ms-2 fs-5"><del>Rs.{{ product.selling_price }}</del></span>
+        {% endif %}
+      </div>
+
+      <div class="mt-4 d-flex flex-wrap gap-3">
+        {% if item_already_in_cart %}
+          <a href="{% url 'showcart' %}" class="btn btn-danger btn-lg rounded-2 px-4">
+             Go to cart
+          </a>
+        {% else %}
+          <form action="{% url 'add-to-cart' %}" method="GET">
+            <input type="hidden" name="prod_id" value="{{ product.id }}">
+            <button type="submit" class="btn btn-warning btn-lg rounded-2 px-4">
+              Add to Cart
+            </button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

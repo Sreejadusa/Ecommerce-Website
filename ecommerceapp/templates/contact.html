@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Contact Us{% endblock title %}
+
+{% block banner_slider %}
+<div id="carouselExampleControls" class="carousel slide mb-5 shadow-lg rounded" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="0" class="active"></button>
+    <button type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="1"></button>
+    <button type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="2"></button>
+    <button type="button" data-bs-target="#carouselExampleControls" data-bs-slide-to="3"></button>
+  </div>
+  <div class="carousel-inner rounded-4 overflow-hidden">
+    <div class="carousel-item active">
+      <img src="{% static 'images/banner/ban.png' %}" class="d-block w-100" style="height: 550px; object-fit: cover;">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'images/banner/b2.png' %}" class="d-block w-100" style="height: 550px; object-fit: cover;">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'images/banner/b3.png' %}" class="d-block w-100" style="height: 550px; object-fit: cover;">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'images/banner/b4.png' %}" class="d-block w-100" style="height: 550px; object-fit: cover;">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+{% endblock banner_slider %}
+
+{% block content %}
+<div class="container mb-5">
+  <h2 class="text-center text-dark fw-semibold mb-5">Contact Us</h2>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="row justify-content-center align-items-start g-4">
+    <div class="col-md-5">
+      <div class="bg-white p-4 shadow-sm rounded-3">
+        <h5 class="mb-3 text-primary">Our Address</h5>
+        <p class="mb-2"><strong>Location:</strong> 123 Main Street, Hyderabad, India</p>
+        <p class="mb-2"><strong>Phone:</strong> +91-9876543210</p>
+        <p class="mb-2"><strong>Email:</strong> support@example.com</p>
+        <p class="mb-0"><strong>Hours:</strong> Mon - Sat, 9AM to 6PM</p>
+      </div>
+    </div>
+
+    <div class="col-md-7">
+      <div class="bg-white p-4 shadow-sm rounded-3">
+        <h5 class="mb-3 text-primary">Send a Message</h5>
+        <form method="POST" action="">
+          {% csrf_token %}
+          <div class="mb-3">
+            <input type="text" name="name" class="form-control form-control-lg" placeholder="Your Name" required>
+          </div>
+          <div class="mb-3">
+            <input type="email" name="email" class="form-control form-control-lg" placeholder="Your Email" required>
+          </div>
+          <div class="mb-3">
+            <textarea name="message" class="form-control form-control-lg" rows="5" placeholder="Your Message" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary px-5 py-2">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

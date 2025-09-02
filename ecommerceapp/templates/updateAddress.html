@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Update Address{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <h4 class="text-primary fw-bold text-center mb-4">Update Your Address</h4>
+  <form method="post" novalidate class="mx-auto" style="max-width: 600px;">
+    {% csrf_token %}
+
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+
+    {% for fm in form %}
+      <div class="mb-3">
+        {{ fm.label_tag }}
+        {{ fm }}
+        <div class="text-danger small">{{ fm.errors|striptags }}</div>
+      </div>
+    {% endfor %}
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger small">
+        {% for error in form.non_field_errors %}{{ error }}<br>{% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="d-flex justify-content-between">
+      <button type="submit" class="btn btn-success">Update</button>
+      <a href="{% url 'address' %}" class="btn btn-secondary">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

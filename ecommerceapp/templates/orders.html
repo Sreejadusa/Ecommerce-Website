@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+  <h2 class="mb-4 text-center text-primary fw-bold">Your Orders</h2>
+
+  {% if op %}
+    <div class="list-group">
+      {% for order in op %}
+      <div class="list-group-item mb-3 p-3 rounded shadow-sm d-flex align-items-center flex-wrap gap-3">
+
+        
+        <div class="me-4 flex-shrink-0">
+          {% if order.product.product_image %}
+            <img src="{{ order.product.product_image.url }}" 
+                 alt="{{ order.product.title }}" 
+                 class="img-fluid rounded border"
+                 style="width: 150px; height: 150px; object-fit: contain; background-color: #f8f9fa;">
+          {% endif %}
+        </div>
+
+        
+        <div class="flex-grow-1">
+          <h5 class="mb-2">{{ order.product.title }}</h5>
+          <p class="mb-1"><strong>Quantity:</strong> {{ order.quantity }}</p>
+          <p class="mb-1"><strong>Price:</strong> Rs. {{ order.total_cost }}</p>
+
+          
+          <p class="mb-2">
+            <strong>Status:</strong> 
+            <span class="badge 
+              {% if order.status == 'Delivered' %} bg-success
+              {% elif order.status == 'On The Way' %} bg-warning text-dark
+              {% elif order.status == 'Packed' %} bg-info text-dark
+              {% elif order.status == 'Accepted' %} bg-primary
+              {% else %} bg-secondary
+              {% endif %}">
+              {{ order.status }}
+            </span>
+          </p>
+
+          
+          <div class="progress" style="height: 10px; max-width: 300px;">
+            {% if order.status == 'Accepted' %}
+              <div class="progress-bar bg-primary" role="progressbar" style="width: 20%"></div>
+            {% elif order.status == 'Packed' %}
+              <div class="progress-bar bg-info" role="progressbar" style="width: 40%"></div>
+            {% elif order.status == 'On The Way' %}
+              <div class="progress-bar bg-warning" role="progressbar" style="width: 70%"></div>
+            {% elif order.status == 'Delivered' %}
+              <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+            {% else %}
+              <div class="progress-bar bg-secondary" role="progressbar" style="width: 10%"></div>
+            {% endif %}
+          </div>
+        </div>
+
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="text-center py-5 text-muted">
+      <h4>You have no orders yet.</h4>
+      <a href="{% url 'home' %}" class="btn btn-outline-primary mt-3 px-4">Start Shopping</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
